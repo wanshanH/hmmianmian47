@@ -26,7 +26,7 @@
           ></el-input>
         </el-form-item>
         <!-- 验证码 -->
-        <el-form-item>
+        <el-form-item prop="code">
           <el-row>
             <el-col :span="18">
               <div class="grid-content bg-purple-dark">
@@ -44,17 +44,15 @@
           </el-row>
         </el-form-item>
         <!-- 用户协议 -->
-        <el-form-item class="checkbox_item">
-          <el-checkbox v-model="checked">
-            我已阅读并同意
-            <el-link class="align" type="primary">用户协议</el-link>&nbsp;和
-            <el-link class="align" type="primary">隐私条款</el-link>
-          </el-checkbox>
+        <el-form-item prop="checked" class="align_item">
+          <el-checkbox v-model="form.checked"></el-checkbox>我已阅读并同意
+          <el-link class="align" type="primary">用户协议</el-link>和
+          <el-link class="align" type="primary">隐私条款</el-link>
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item>
           <el-button class="box_btn" type="primary" @click="btnClick">登录</el-button>
-          <el-button class="box_btn" type="primary" @click="btnClick">注册</el-button>
+          <el-button class="box_btn1" type="primary" @click="btnClick">注册</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -70,7 +68,7 @@ export default {
         phone: "",
         password: "",
         code: "",
-        checked: true
+        checked: false
       },
       rules: {
         phone: [
@@ -80,9 +78,9 @@ export default {
             trigger: "blur"
           },
           {
-            min: 3,
-            max: 6,
-            message: "长度在3-6个字符",
+            min: 11,
+            max: 11,
+            message: "请输入正确的手机号码格式",
             trigger: "change"
           }
         ],
@@ -96,6 +94,20 @@ export default {
             min: 6,
             max: 16,
             message: "长度在6-16个字符",
+            trigger: "change"
+          }
+        ],
+        code: [
+          {
+            required: true,
+            message: "请输入验证码",
+            trigger: "blur"
+          }
+        ],
+        checked: [
+          {
+            pattern: /true/,
+            message: "必须勾选用户协议",
             trigger: "change"
           }
         ]
@@ -171,20 +183,33 @@ export default {
     .img {
       width: 100%;
       height: 40px;
+      vertical-align: top;
     }
 
-    .checkbox_item {
-      display: flex;
-      align-items: center;
+    .align_item {
+      margin-top: 40px;
+
+      .el-form-item__content {
+        display: flex;
+        align-items: center;
+        line-height: 0;
+        // height: 16px;
+      }
+
       .align {
-          margin-top: -3px;
+        height: 16px;
+        font-size: 14px;
       }
     }
 
     .box_btn {
       width: 100%;
-      margin-left: 0;
+      margin-top: 10px;
       margin-bottom: 26px;
+    }
+    .box_btn1 {
+      width: 100%;
+      margin-left: 0;
     }
   }
 }
