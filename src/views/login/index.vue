@@ -50,21 +50,21 @@
         <!-- 按钮 -->
         <el-form-item>
           <el-button class="box_btn1" type="primary" @click="btnClick">登录</el-button>
-          <el-button class="box_btn" type="primary" @click="btnClick">注册</el-button>
+          <el-button class="box_btn" type="primary" @click="showReg">注册</el-button>
         </el-form-item>
       </el-form>
     </div>
     <img src="../../assets/login.png" alt />
 
-    <req></req>
+    <reg ref="reg"></reg>
   </div>
 </template>
 
 <script>
-import req from "./components/req";
+import reg from "./components/reg";
 export default {
   components: {
-    req
+    reg
   },
   data() {
     return {
@@ -127,6 +127,11 @@ export default {
           alert("至少一个不正确");
         }
       });
+    },
+    showReg() {
+      this.$refs.reg.dialogFormVisible = true;
+      this.$refs.reg.imgUrl =
+        process.env.VUE_APP_CODERUL + "/captcha?type=sendsms&t=" + Date.now();
     }
   }
 };
