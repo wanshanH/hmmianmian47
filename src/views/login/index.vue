@@ -26,17 +26,15 @@
           ></el-input>
         </el-form-item>
         <!-- 验证码 -->
-        <el-form-item>
+        <el-form-item prop="code">
           <el-row>
             <el-col :span="18">
-              <div class="grid-content bg-purple-dark">
-                <el-input
-                  clearable
-                  v-model="form.code"
-                  prefix-icon="el-icon-key"
-                  placeholder="请输入验证码"
-                ></el-input>
-              </div>
+              <el-input
+                clearable
+                v-model="form.code"
+                prefix-icon="el-icon-key"
+                placeholder="请输入验证码"
+              ></el-input>
             </el-col>
             <el-col :span="6">
               <img class="img" src="../../assets/code.png" alt />
@@ -44,16 +42,14 @@
           </el-row>
         </el-form-item>
         <!-- 用户协议 -->
-        <el-form-item class="checkbox_item">
-          <el-checkbox v-model="form.checked">
-            我已阅读并同意
-            <el-link class="align" type="primary">用户协议</el-link>&nbsp;和
-            <el-link class="align" type="primary">隐私条款</el-link>
-          </el-checkbox>
+        <el-form-item prop="checked" class="items">
+          <el-checkbox v-model="form.checked"></el-checkbox>我已阅读并同意
+          <el-link type="primary">用户协议</el-link>&nbsp;和
+          <el-link type="primary">隐私条款</el-link>
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item>
-          <el-button class="box_btn" type="primary" @click="btnClick">登录</el-button>
+          <el-button class="box_btn1" type="primary" @click="btnClick">登录</el-button>
           <el-button class="box_btn" type="primary" @click="btnClick">注册</el-button>
         </el-form-item>
       </el-form>
@@ -76,7 +72,7 @@ export default {
         phone: "",
         password: "",
         code: "",
-        checked: true
+        checked: false
       },
       rules: {
         phone: [
@@ -114,8 +110,8 @@ export default {
         ],
         checked: [
           {
-            patter: true,
-            message: "请输入密码",
+            pattern: /true/,
+            message: "必须勾选用户协议",
             trigger: "change"
           }
         ]
@@ -188,23 +184,30 @@ export default {
       }
     }
 
+    .items {
+      margin-top: 40px;
+      .el-form-item__content {
+        display: flex;
+        align-items: center;
+        line-height: 16px;
+      }
+    }
+
     .img {
       width: 100%;
       height: 40px;
+      vertical-align: top;
     }
 
-    .checkbox_item {
-      display: flex;
-      align-items: center;
-      .align {
-        margin-top: -3px;
-      }
+    .box_btn1 {
+      margin-top: 10px;
+      width: 100%;
+      margin-bottom: 30px;
     }
 
     .box_btn {
       width: 100%;
       margin-left: 0;
-      margin-bottom: 26px;
     }
   }
 }
