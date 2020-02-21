@@ -45,7 +45,7 @@
         </el-form-item>
         <!-- 用户协议 -->
         <el-form-item class="checkbox_item">
-          <el-checkbox v-model="checked">
+          <el-checkbox v-model="form.checked">
             我已阅读并同意
             <el-link class="align" type="primary">用户协议</el-link>&nbsp;和
             <el-link class="align" type="primary">隐私条款</el-link>
@@ -59,11 +59,17 @@
       </el-form>
     </div>
     <img src="../../assets/login.png" alt />
+
+    <req></req>
   </div>
 </template>
 
 <script>
+import req from "./components/req";
 export default {
+  components: {
+    req
+  },
   data() {
     return {
       form: {
@@ -96,6 +102,20 @@ export default {
             min: 6,
             max: 16,
             message: "长度在6-16个字符",
+            trigger: "change"
+          }
+        ],
+        code: [
+          {
+            required: true,
+            message: "请输入验证码",
+            trigger: "blur"
+          }
+        ],
+        checked: [
+          {
+            patter: true,
+            message: "请输入密码",
             trigger: "change"
           }
         ]
@@ -177,7 +197,7 @@ export default {
       display: flex;
       align-items: center;
       .align {
-          margin-top: -3px;
+        margin-top: -3px;
       }
     }
 
