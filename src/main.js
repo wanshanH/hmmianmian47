@@ -5,12 +5,12 @@ import router from './router/index'
 // 导入基础样式
 import './style/base.css'
 // 导入 axios
-import axios from "axios"
+// import axios from "axios"
 
 // 配置基地址
-axios.defaults.baseURL = "http://127.0.0.1/heimamm/public"
+// axios.defaults.baseURL = "http://127.0.0.1/heimamm/public"
 // 原型添加$axios
-Vue.prototype.$axios = axios
+// Vue.prototype.$axios = axios
 
 
 
