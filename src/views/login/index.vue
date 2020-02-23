@@ -37,7 +37,7 @@
               ></el-input>
             </el-col>
             <el-col :span="6">
-              <img class="img" src="../../assets/code.png" alt />
+              <img class="img" @click="getNewCode" :src="imgCode" alt />
             </el-col>
           </el-row>
         </el-form-item>
@@ -62,12 +62,14 @@
 
 <script>
 import reg from "./components/reg";
+import { login } from "@/api/login.js";
 export default {
   components: {
     reg
   },
   data() {
     return {
+      imgCode: process.env.VUE_APP_CODERUL + "/captcha?type=login",
       form: {
         phone: "",
         password: "",
@@ -80,12 +82,6 @@ export default {
             required: true,
             message: "请输入手机号",
             trigger: "blur"
-          },
-          {
-            min: 3,
-            max: 6,
-            message: "长度在3-6个字符",
-            trigger: "change"
           }
         ],
         password: [
@@ -122,9 +118,21 @@ export default {
     btnClick() {
       this.$refs.form.validate(v => {
         if (v) {
-          alert("全部正确!");
-        } else {
-          alert("至少一个不正确");
+          login({
+            phone: this.form.phone,
+            password: this.form.password,
+            code: this.form.code
+          }).then(res => {
+            window.console.log(res);
+            if (res.data.code == 200) {
+              // 保存token
+              window.localStorage.setItem("token", res.data.data.token);
+              this.$message.success("登陆成功");
+              this.$router.push("/index");
+            } else {
+              this.$message.error(res.data.message);
+            }
+          });
         }
       });
     },
@@ -132,6 +140,10 @@ export default {
       this.$refs.reg.dialogFormVisible = true;
       this.$refs.reg.imgUrl =
         process.env.VUE_APP_CODERUL + "/captcha?type=sendsms&t=" + Date.now();
+    },
+    getNewCode() {
+      this.imgCode =
+        process.env.VUE_APP_CODERUL + "/captcha?type=login&t=" + Date.now();
     }
   }
 };
