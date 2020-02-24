@@ -9,6 +9,9 @@ import 'element-ui/lib/theme-chalk/index.css';
 import login from '../views/login/login.vue'
 import index from '../views/index/index.vue'
 
+//  导入子路由 
+import user from '../views/index/user/index.vue'
+
 const routerPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
     return routerPush.call(this, location).catch(error => error)
@@ -26,7 +29,13 @@ const routes = [
     },
     {
         path: '/index',
-        component: index
+        component: index,
+        children: [
+            {
+                path: 'user',
+                component: user
+            }
+        ]
     }
 ]
 
