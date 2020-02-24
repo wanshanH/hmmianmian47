@@ -6,7 +6,8 @@ import VueRouter from 'vue-router'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 // 导入 组件
-import login from '../views/login/index.vue'
+import login from '../views/login/login.vue'
+import index from '../views/index/index.vue'
 
 const routerPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
@@ -22,6 +23,10 @@ const routes = [
     {
         path: '/',
         component: login
+    },
+    {
+        path: '/index',
+        component: index
     }
 ]
 
