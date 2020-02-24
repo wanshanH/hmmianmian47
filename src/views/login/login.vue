@@ -72,8 +72,8 @@ export default {
     return {
       imgCode: process.env.VUE_APP_CODERUL + "/captcha?type=login",
       form: {
-        phone: "",
-        password: "",
+        phone: "15629375202",
+        password: "12345678",
         code: "",
         checked: false
       },
@@ -124,7 +124,7 @@ export default {
             password: this.form.password,
             code: this.form.code
           }).then(res => {
-            window.console.log(res);
+            // window.console.log(res);
             if (res.data.code == 200) {
               // 保存token
               setToken(res.data.data.token);
