@@ -63,6 +63,7 @@
 <script>
 import reg from "./components/reg";
 import { login } from "@/api/login.js";
+import { setToken } from "@/utilis/token.js";
 export default {
   components: {
     reg
@@ -126,7 +127,7 @@ export default {
             window.console.log(res);
             if (res.data.code == 200) {
               // 保存token
-              window.localStorage.setItem("token", res.data.data.token);
+              setToken(res.data.data.token);
               this.$message.success("登陆成功");
               this.$router.push("/index");
             } else {
