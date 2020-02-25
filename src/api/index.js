@@ -4,10 +4,18 @@ import { getToken } from '@/utilis/token.js'
 
 let indexRequest = axios.create({
     baseURL: process.env.VUE_APP_CODERUL,
-    headers: {
-        token: getToken()
-    }
+
 })
+
+// 添加请求拦截器
+indexRequest.interceptors.request.use(function (config) {
+    // 在发送请求之前做些什么
+    config.headers.token = getToken()
+    return config;
+}, function (error) {
+    // 对请求错误做些什么
+    return Promise.reject(error);
+});
 
 //  封装 获取用户信息的方法
 export function info() {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>user 组件</h1>
+    <h1>chart 组件</h1>
   </div>
 </template>
 
