@@ -4,6 +4,9 @@ import App from './App.vue'
 import router from './router/index'
 // 导入基础样式
 import './style/base.css'
+
+import store from './store/index'
+
 // 导入 axios
 // import axios from "axios"
 
@@ -18,5 +21,6 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')

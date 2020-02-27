@@ -10,8 +10,8 @@
         <span class="span">黑马面面</span>
       </div>
       <div class="right">
-        <img :src="avatar" alt />
-        <span class="user">{{username}},你好</span>
+        <img :src="$store.state.avatar" alt />
+        <span class="user">{{$store.state.username}},你好</span>
         <el-button size="small" @click="btnLogout" type="primary">退出</el-button>
       </div>
     </el-header>
@@ -53,23 +53,30 @@
 </template>
 
 <script>
-import { info, logout } from "@/api/index.js";
-import { removeToken } from "@/utilis/token.js";
+import { logout } from "@/api/index.js";
+import { getToken, removeToken } from "@/utilis/token.js";
 export default {
   data() {
     return {
-      username: "",
-      avatar: "",
+      // username: "",
+      // avatar: "",
       isCollapse: false
     };
   },
-  created() {
-    info().then(res => {
-      window.console.log(res);
-      this.username = res.data.data.username;
-      this.avatar = process.env.VUE_APP_CODERUL + "/" + res.data.data.avatar;
-    });
+  beforeCreate() {
+    if (!getToken()) {
+      this.$message.error("请先登录");
+      this.$router.push("/login");
+    }
   },
+  // created() {
+  //   // 调用获取用户信息接口
+  //   info().then(res => {
+  //     // window.console.log(res);
+  //     this.username = res.data.data.username;
+  //     this.avatar = process.env.VUE_APP_CODERUL + "/" + res.data.data.avatar;
+  //   });
+  // },
   methods: {
     btnLogout() {
       this.$confirm("您将退出本系统,是否继续?", "提示", {
@@ -78,9 +85,13 @@ export default {
         type: "warning"
       })
         .then(() => {
-          logout().then(res => {
-            window.console.log(res);
+          logout().then(() => {
+            // window.console.log(res);
             removeToken();
+            // 退出清空vuex
+            this.$store.commit("changeUsername", "");
+            this.$store.commit("changeAvatar", "");
+            
             this.$message.success("退出成功");
             this.$router.push({
               path: "/",
@@ -131,7 +142,7 @@ export default {
         width: 43px;
         height: 43px;
         vertical-align: top;
-        border-radius: 50%;
+        border-radius: 30%;
       }
 
       .user {
@@ -141,13 +152,13 @@ export default {
     }
   }
 
-  //   .my_aside {
-  //     background-color: yellowgreen;
-  //   }
-
-  // .my_main {
-  //   background-color: #0094ff;
+  // .my_aside {
+  //   background-color: yellowgreen;
   // }
+
+  .my_main {
+    background-color: #0094ff;
+  }
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
     min-height: 400px;
