@@ -31,11 +31,11 @@
             <i class="el-icon-user"></i>
             <span slot="title">用户列表</span>
           </el-menu-item>
-          <el-menu-item index="/index/business">
+          <el-menu-item index="/index/question">
             <i class="el-icon-edit-outline"></i>
             <span slot="title">题库列表</span>
           </el-menu-item>
-          <el-menu-item index="/index/question">
+          <el-menu-item index="/index/business">
             <i class="el-icon-office-building"></i>
             <span slot="title">企业列表</span>
           </el-menu-item>
@@ -91,7 +91,7 @@ export default {
             // 退出清空vuex
             this.$store.commit("changeUsername", "");
             this.$store.commit("changeAvatar", "");
-            
+
             this.$message.success("退出成功");
             this.$router.push({
               path: "/",

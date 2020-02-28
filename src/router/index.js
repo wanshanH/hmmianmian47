@@ -65,12 +65,12 @@ const routes = [
             {
                 path: 'business',
                 component: business,
-                meta: { title: '题库列表' }
+                meta: { title: '企业列表' }
             },
             {
                 path: 'question',
                 component: question,
-                meta: { title: '企业列表' }
+                meta: { title: '题库列表' }
             },
             {
                 path: 'subject',
