@@ -18,7 +18,7 @@ indexRequest.interceptors.request.use(function (config) {
 });
 
 //  封装 获取用户信息的方法
-export function info() {
+export function info(params) {
     // axios({
     //     url: '请求路径',
     //     method: 'get',
@@ -29,16 +29,18 @@ export function info() {
     // })
     return indexRequest({
         url: '/info',
-        method: 'get'
+        method: 'get',
+        params
     })
 }
 
 
 //  封装 退出的方法
-export function logout() {
+export function logout(params) {
     return indexRequest({
         url: '/logout',
-        method: 'get'
+        method: 'get',
+        params
     })
 }
 

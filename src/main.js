@@ -1,11 +1,17 @@
 import Vue from 'vue'
 import App from './App.vue'
 // import {router} from './router/index'
+// 导入 路由
 import router from './router/index'
 // 导入基础样式
 import './style/base.css'
 
+// 导入 vuex 对象
 import store from './store/index'
+
+// 导入全局过滤器
+// 这个文件只需要简单导入
+import '@/filters/filters.js'
 
 // 导入 axios
 // import axios from "axios"

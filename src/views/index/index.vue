@@ -156,9 +156,9 @@ export default {
   //   background-color: yellowgreen;
   // }
 
-  .my_main {
-    background-color: #0094ff;
-  }
+  // .my_main {
+  //   background-color: #0094ff;
+  // }
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
     min-height: 400px;
