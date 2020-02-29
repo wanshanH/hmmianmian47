@@ -1,25 +1,8 @@
-import axios from 'axios'
-import { getToken } from '@/utilis/token.js'
-
-let businessRequest = axios.create({
-    baseURL: process.env.VUE_APP_CODERUL,
-    withCredentials: true,
-})
-
-// 添加请求拦截器
-businessRequest.interceptors.request.use(function (config) {
-    // 在发送请求之前做些什么
-    config.headers.token = getToken()
-    return config;
-}, function (error) {
-    // 对请求错误做些什么
-    return Promise.reject(error);
-});
-
+import request from '@/utilis/request.js'
 
 // 企业列表封装
 export function businessList(params){
-    return businessRequest({
+    return request({
         url:'/enterprise/list',
         method:'get',
         params
@@ -29,7 +12,7 @@ export function businessList(params){
 
 // 企业添加封装
 export function businessAdd(data){
-    return businessRequest({
+    return request({
         url:'/enterprise/add',
         method:'post',
         data
@@ -37,7 +20,7 @@ export function businessAdd(data){
 }
 // 企业状态封装
 export function businessStatus(data){
-    return businessRequest({
+    return request({
         url:'/enterprise/status',
         method:'post',
         data
@@ -45,7 +28,7 @@ export function businessStatus(data){
 }
 // 企业删除封装
 export function businessRemove(data){
-    return businessRequest({
+    return request({
         url:'/enterprise/remove',
         method:'post',
         data
@@ -53,7 +36,7 @@ export function businessRemove(data){
 }
 // 企业编辑封装
 export function businessEdit(data){
-    return businessRequest({
+    return request({
         url:'/enterprise/edit',
         method:'post',
         data

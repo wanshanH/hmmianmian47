@@ -20,7 +20,7 @@
         <el-form-item>
           <el-button type="primary" @click="btnSearch">搜索</el-button>
           <el-button @click="clearSearch">清除</el-button>
-          <el-button type="primary" icon="el-icon-plus">新增学科</el-button>
+          <el-button @click="showAdd" type="primary" icon="el-icon-plus">新增企业</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -42,13 +42,13 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="small" type="text">编辑</el-button>
+            <el-button @click="showEdit(scope.row)" size="small" type="text">编辑</el-button>
             <el-button
               @click="getStatus(scope.row)"
               size="small"
               type="text"
             >{{ scope.row.status==1? "禁用": "启用" }}</el-button>
-            <el-button size="small" type="text">删除</el-button>
+            <el-button @click="doDel(scope.row)" size="small" type="text">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -63,13 +63,28 @@
         :total="total"
       ></el-pagination>
     </el-card>
+    <!-- <businessAdd ref="businessAdd"></businessAdd>
+    <businessEdit ref="businessEdit"></businessEdit>-->
+    <businessDialog ref="businessDialog"></businessDialog>
   </div>
 </template>
 
 <script>
-import { businessList, businessStatus } from "@/api/business.js";
+import {
+  businessList,
+  businessStatus,
+  businessRemove
+} from "@/api/business.js";
+// import businessAdd from "./components/businessAdd";
+// import businessEdit from "./components/businessEdit";
+import businessDialog from "./components/businessDialog";
 export default {
   name: "qiye",
+  components: {
+    // businessAdd,
+    // businessEdit
+    businessDialog
+  },
   data() {
     return {
       formInline: {
@@ -121,12 +136,14 @@ export default {
         id: item.id
       }).then(() => {
         // window.console.log(res);
+        this.$message.success("状态修改成功");
         this.getList();
       });
     },
 
     // 条件筛选
     btnSearch() {
+      this.currentPage = 1;
       this.getList();
     },
 
@@ -134,7 +151,47 @@ export default {
     clearSearch() {
       //  重置表单
       this.$refs.formInline.resetFields();
+      this.currentPage = 1;
       this.getList();
+    },
+
+    // 显示新增弹框
+    showAdd() {
+      this.$refs.businessDialog.dialogFormVisible = true;
+      this.$refs.businessDialog.isAdd = true;
+      this.$refs.businessDialog.form = {};
+    },
+
+    //  显示编辑弹框
+    showEdit(item) {
+      this.$refs.businessDialog.dialogFormVisible = true;
+      this.$refs.businessDialog.isAdd = false;
+
+      if (item != this.oldItem) {
+        this.$refs.businessDialog.form = { ...item };
+        this.oldItem = item;
+      }
+    },
+
+    // 删除企业
+    doDel(item) {
+      businessRemove({
+        id: item.id
+      }).then(res => {
+        // window.console.log(res);
+        if (res.data.code == 200) {
+          this.$message.success("删除成功");
+          if (this.tableData.length == 1) {
+            this.currentPage--;
+          }
+          if (this.currentPage == 0) {
+            this.currentPage = 1;
+          }
+          this.getList();
+        } else {
+          this.$message.error(res.data.message);
+        }
+      });
     }
   }
 };

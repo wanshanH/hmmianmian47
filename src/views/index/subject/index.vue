@@ -139,12 +139,14 @@ export default {
     },
     //   条件搜索 筛选
     doSearch() {
+      this.currentPage = 1;
       this.getSubject();
     },
     //  重置表单  清除筛选
     clearSearch() {
       // 重置需要加 prop 属性
       this.$refs.formInline.resetFields();
+      this.currentPage = 1;
       // 重新请求数据
       this.getSubject();
     },
