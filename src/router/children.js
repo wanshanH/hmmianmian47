@@ -11,7 +11,7 @@ export default [
         component: chart,
         meta: {
             title: '数据概览',
-            roles: ['超级管理员', '管理员', '老师'],
+            roles: ['超级管理员', '管理员',],
             icon: 'el-icon-pie-chart'
         }
     },
