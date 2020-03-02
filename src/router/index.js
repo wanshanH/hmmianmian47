@@ -9,12 +9,8 @@ import 'element-ui/lib/theme-chalk/index.css';
 import login from '../views/login/login.vue'
 import index from '../views/index/index.vue'
 
-//  导入子路由 
-import chart from '../views/index/chart/index.vue'
-import user from '../views/index/user/index.vue'
-import business from '../views/index/business/index.vue'
-import question from '../views/index/question/index.vue'
-import subject from '../views/index/subject/index.vue'
+// 导入子路由数组
+import children from './children.js'
 
 //  导入进度条 js 和 css 文件
 import NProgress from 'nprogress'
@@ -24,7 +20,7 @@ import { info } from '@/api/index.js'
 import { removeToken } from '@/utilis/token.js'
 import { Message } from 'element-ui';
 
-
+// 导入vuex
 import store from '../store/index'
 
 const routerPush = VueRouter.prototype.push
@@ -45,39 +41,21 @@ const routes = [
     {
         path: '/login',
         component: login,
-        meta: { title: '登录' }
+        meta: {
+            title: '登录',
+            roles:
+                ['超级管理员', '管理员', '老师', '学生']
+        }
     },
     {
         path: '/index',
         component: index,
-        meta: { title: '首页' },
-        children: [
-            {
-                path: 'chart',
-                component: chart,
-                meta: { title: '数据概览' }
-            },
-            {
-                path: 'user',
-                component: user,
-                meta: { title: '用户列表' }
-            },
-            {
-                path: 'business',
-                component: business,
-                meta: { title: '企业列表' }
-            },
-            {
-                path: 'question',
-                component: question,
-                meta: { title: '题库列表' }
-            },
-            {
-                path: 'subject',
-                component: subject,
-                meta: { title: '学科列表' }
-            }
-        ]
+        meta: {
+            title: '首页',
+            roles:
+                ['超级管理员', '管理员', '老师', '学生']
+        },
+        children
     }
 ]
 
@@ -105,10 +83,32 @@ router.beforeEach((to, from, next) => {
         info().then(res => {
             if (res.data.code == 200) {
                 // window.console.log(res);
+                // 登录前需要判断状态  状态为1代表启用可以登录
+                if (res.data.data.status == 1) {
+                    // 保存 用户名 和头像到vuex
+                    store.commit('changeUsername', res.data.data.username)
+                    store.commit('changeAvatar', process.env.VUE_APP_CODERUL + "/" + res.data.data.avatar)
+                    store.commit('changeRole', res.data.data.role)
+                    // 判断是否是从登录页过来  是的话给登录成功提示
+                    if (from.path == '/login') {
+                        Message.success('登录成功')
+                    }
+                    // 判断 该账号是有有权限访问某个页面
+                    if (to.meta.roles.includes(res.data.data.role)) {
+                        next()
+                    } else {
+                        Message.warning('该页面无权限访问')
+                        NProgress.done();
+                        next(from.path)
+                    }
 
-                store.commit('changeUsername', res.data.data.username)
-                store.commit('changeAvatar', process.env.VUE_APP_CODERUL + "/" + res.data.data.avatar)
-                next()
+                } else {
+                    // 状态为0代表禁用不可以登录
+                    Message.warning('账号被禁用,请与管理员联系')
+                    NProgress.done();
+                    next('/login')
+                }
+
             } else if (res.data.code == 206) {
 
                 Message.error('登录异常,请重新登录')

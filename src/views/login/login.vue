@@ -117,6 +117,7 @@ export default {
   },
   methods: {
     btnClick() {
+      // this.getNewCode();
       this.$refs.form.validate(v => {
         if (v) {
           login({
@@ -128,7 +129,7 @@ export default {
             if (res.data.code == 200) {
               // 保存token
               setToken(res.data.data.token);
-              this.$message.success("登陆成功");
+              // this.$message.success("登陆成功");
               this.$router.push("/index");
             } else {
               this.$message.error(res.data.message);
