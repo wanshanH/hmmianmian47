@@ -5,6 +5,6 @@ export function login(data) {
         url: process.env.VUE_APP_CODERUL + "/login",
         method: 'post',
         data,
-        withCredentials: true
+        withCredentials: true,
     })
 }

@@ -6,6 +6,13 @@ import router from './router/index'
 // 导入基础样式
 import './style/base.css'
 
+//  导入全局组件
+import subjectSelect from "./components/subjectSelect.vue";
+import businessSelect from './components/businessSelect.vue'
+// 注册全局组件
+Vue.component("subjectSelect", subjectSelect)
+Vue.component("businessSelect", businessSelect)
+
 // 导入 vuex 对象
 import store from './store/index'
 

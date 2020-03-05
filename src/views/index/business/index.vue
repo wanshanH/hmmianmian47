@@ -213,7 +213,7 @@ export default {
     width: 200px;
   }
 }
-// .el-pagination {
-//   text-align: center;
-// }
+.el-pagination {
+  text-align: center;
+}
 </style>

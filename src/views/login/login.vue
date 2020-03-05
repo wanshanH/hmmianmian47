@@ -123,7 +123,7 @@ export default {
           login({
             phone: this.form.phone,
             password: this.form.password,
-            code: this.form.code
+            code: this.form.code,
           }).then(res => {
             // window.console.log(res);
             if (res.data.code == 200) {
